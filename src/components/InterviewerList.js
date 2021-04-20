@@ -1,9 +1,13 @@
 import React from 'react';
-import InterviewerListItem from './InterviewerListItem';
+import 'components/InterviewerList.scss'
+import InterviewerListItem from 'components/InterviewerListItem';
+import PropTypes from 'prop-types';
 
 export default function InterviewerList(props) {
+ 
 
   const value = props.interviewers.map(value => {
+  
     return (
       <InterviewerListItem
         key={value.id}
@@ -25,20 +29,6 @@ export default function InterviewerList(props) {
     )
 };
 
-
-// export default function DayList(props) {
-//   let listOfDays = props.days.map(day => {
-
-//     return <DayListItem
-//     key={day.id}
-//     name={day.name} 
-//     spots={day.spots} 
-//     selected={day.name === props.day}
-//     setDay={props.setDay}  /> 
-//   })
-
-//   return <ul>
-//     {listOfDays}
-//   </ul>;
-
-// };
+InterviewerList.propTypes = {
+  interviewers: PropTypes.array.isRequired
+};
