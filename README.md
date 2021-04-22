@@ -1,6 +1,6 @@
 # Interview Scheduler is a full stack web app that allows users to book appointments with interviewers; built with React, Jest, Storybook, and Cypress.
 
-![""]()
+!["Appointment Form"](https://github.com/ericguthrie/scheduler-/blob/master/docs/appointment-form.png?raw=true)
 !["Create Interview Form"](https://github.com/ericguthrie/scheduler-/blob/master/docs/Create-form.png?raw=true)
 
 ## Setup
