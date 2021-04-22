@@ -52,7 +52,9 @@ const fixtures = {
       name: "Cohana Roy",
       avatar: "https://i.imgur.com/FK8V841.jpg"
     }
-  }
+  },
+  appointment: 
+   { id: 1, time: "12pm", interview: null }
 };
 
 export default {
@@ -83,5 +85,14 @@ export default {
         data: fixtures.interviewers
       });
     }
+  }),
+  put: jest.fn(url => {
+    
+      return Promise.resolve ({
+        status: 204,
+        statusText:"no Content",
+        data: fixtures.interview
+      })
+    
   })
 }
