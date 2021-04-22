@@ -1,4 +1,4 @@
-# Interview Scheduler
+# Interview Scheduler is a full stack web app that allows users to book appointments with interviewers. It was built with react using cypress for testing. 
 
 ## Setup
 
