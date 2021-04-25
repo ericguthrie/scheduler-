@@ -18,18 +18,16 @@ const cancel = () => {
     props.onCancel();
 }
 
-const save = () => {
- 
-  props.onSave(name, value)
-  
-}
 
 function validate() {
   if (name === "") {
     setError("Student name cannot be blank");
     return;
   }
-
+  if(value === null) {
+    setError('Please select the interviewer');
+    return;
+  }
   setError("");
   props.onSave(name, value);
 }

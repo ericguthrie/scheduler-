@@ -100,7 +100,7 @@ it("loads data, cancels an interview and increases the spots remaining for Monda
 it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
 
 // 1. Render the Application.
-const { container, debug } = render(<Application />);
+const { container } = render(<Application />);
 
 // 2. Wait until the text "Archie Cohen" is displayed.
 await waitForElement(() => getByText(container, "Archie Cohen"));
@@ -121,13 +121,13 @@ fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
 expect(getByText(appointment, "1 spot remaining")).toBeInTheDocument();
 
 // 6. Read the errors because sometimes they say that await cannot be outside of an async function.
-  console.log(debug);
+  
   });
 
 it("shows the save error when failing to save an appointment", async () => {
   axios.put.mockRejectedValueOnce();
 // 1. Render the Application.
-const { container, debug } = render(<Application />);
+const { container} = render(<Application />);
 
 // 2. Wait until the text "Archie Cohen" is displayed.
 await waitForElement(() => getByText(container, "Archie Cohen"));
@@ -146,8 +146,6 @@ fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
   
   //4. Show error message when saving doesn't work
   // expect(getByText(appointment, 'Error while saving appointment')).toBeInTheDocument();
-
-  console.log(debug);
   
 });
 
