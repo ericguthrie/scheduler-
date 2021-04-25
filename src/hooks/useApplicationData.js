@@ -1,15 +1,21 @@
 import { useEffect, useReducer } from 'react';
 import axios from 'axios';
-import reducer from 'reducers/application';
+import { useIsMount } from './useIsMount';
+import  reducer, {SET_DAY, SET_DAYS, SET_APPLICATION_DATA, SET_INTERVIEW, SET_WEB_SOCKET} from "reducers/application";
 
 const useApplicationData = () => {
 
-  const SET_DAY = "SET_DAY";
-  const SET_DAYS = "SET_DAYS";
-  const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-  const SET_INTERVIEW = "SET_INTERVIEW";
-  const SET_WEB_SOCKET = "SET_WEB_SOCKET";
+  const isMount = useIsMount();
+  
 
+  /**
+   * This function creates and updates the current state with
+   * the appointment information received in the wesocket message
+   *
+   * @param {*} state
+   * @param {*} message
+   * @return {*} 
+   */
   const getAppointments = (state, message) => {
     const appointment = {
       ...state.appointments[message.id],
@@ -22,6 +28,13 @@ const useApplicationData = () => {
     return appointments;
   }
 
+  /**
+   * Axios call to create an appointment and then update state
+   *
+   * @param {*} id
+   * @param {*} interview
+   * @return {*} 
+   */
   const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],
@@ -33,6 +46,12 @@ const useApplicationData = () => {
       });
   };
 
+  /**
+   * Axios call to delete an appointment and then update the state
+   *
+   * @param {*} id
+   * @return {*} 
+   */
   const deleteInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`)
       .then(() => {
@@ -40,30 +59,13 @@ const useApplicationData = () => {
       });
   };
 
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case SET_DAY:
-        return { ...state, day: action.value };
-      case SET_DAYS:
-        return { ...state, days: action.value.days };
-      case SET_APPLICATION_DATA:
-        return { ...state, days: action.value.days, appointments: action.value.appointments, interviewers: action.value.interviewers };
-      case SET_INTERVIEW: 
-        return { ...state, appointments: action.value.appointments };
-      case SET_WEB_SOCKET: 
-        return { ...state, appointments: getAppointments(state, action.value.message) }
-      default:
-        throw new Error(`Tried to reduce with unsupported action type: ${action.type}`);
-    }
-  }
 
   const [state, dispatch] = useReducer(reducer, {
     day: 'Monday',
     days: [],
     appointments: {},
     interviewers: {}
-  });
-
+  }); 
 
   useEffect(() => {
     const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:8001');
@@ -79,6 +81,18 @@ const useApplicationData = () => {
       dispatch({ type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data } });
     })
   }, []);
+
+  
+  useEffect(() => {
+    //console.log('axios days')
+    //Promise.all([
+      if (!isMount) 
+        axios.get('/api/days')
+    //])
+    .then((response) => {
+        dispatch({ type: SET_DAYS, value: { days: response.data } });
+      })
+  }, [state.appointments, isMount]);
 
 
   const setDay = (day) => {
